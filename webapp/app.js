@@ -7,7 +7,9 @@
     });
     var map = L.map('map')
         .addLayer(mapboxTiles)
-        .setView([40.72332345541449, -73.99], 14);
+        .setView([40.72332345541449, -73.99], 14)
+        .setView([54.976628500066134, -1.492767333984375])
+        .setZoom(11);
     // we will be appending the SVG to the Leaflet map pane
     // g (group) element will be inside the svg
     var svg = d3.select(map.getPanes().overlayPane).append("svg");
@@ -207,7 +209,7 @@
                 var p = linePath.node().getPointAtLength(t * l);
                 //Move the marker to that point
                 marker.attr("transform", "translate(" + p.x + "," + p.y + ")"); //move marker
-                console.log(interpolate(t))
+                //console.log(interpolate(t))
                 return interpolate(t);
             }
         } //end tweenDash
