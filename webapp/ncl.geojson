@@ -1,0 +1,108 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+          "name": "Start"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.497659683227539,
+          55.009421684487315
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.5240097045898438,
+          55.00361343394534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.5440082550048828,
+          54.999773620133055
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.547698974609375,
+          55.00789586961595
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.548471450805664,
+          55.015032246396004
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.5384292602539062,
+          55.02118327609378
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.523151397705078,
+          55.02915360658915
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.5126800537109375,
+          55.019411876296935
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+          "name": "end"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.5014362335205078,
+          55.011390392096075
+        ]
+      }
+    }
+  ]
+}

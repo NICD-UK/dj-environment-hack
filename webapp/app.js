@@ -19,12 +19,12 @@
     var g = svg.append("g").attr("class", "leaflet-zoom-hide");
     //read in the GeoJSON. This function is asynchronous so
     // anything that needs the json file should be within
-    d3.json("points.geojson", function(collection) {
+    d3.json("ncl.geojson", function(collection) {
         // this is not needed right now, but for future we may need
         // to implement some filtering. This uses the d3 filter function
         // featuresdata is an array of point objects
         var featuresdata = collection.features.filter(function(d) {
-            return d.properties.id == "route1"
+            return d.properties.id != "route1"
         })
         //stream transform. transforms geometry before passing it to
         // listener. Can be used in conjunction with d3.geo.path
@@ -84,7 +84,7 @@
         // and destination and adding them separately to
         // better style them. There is probably a better
         // way to do this!
-        var originANDdestination = [featuresdata[0], featuresdata[17]]
+        var originANDdestination = [featuresdata[0], featuresdata[featuresdata.length -1]]
         var begend = g.selectAll(".drinks")
             .data(originANDdestination)
             .enter()
