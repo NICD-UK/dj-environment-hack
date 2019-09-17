@@ -1,0 +1,119 @@
+---
+title: "Lichen Data"
+output: 
+  ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(ggmap)
+theme_set(theme_minimal())
+```
+
+```{r}
+files <- fs::dir_ls(path = "~/Downloads/Datajam lichen data/", regexp = "*.csv")
+
+lichen_names <- c("ramalina_farinacea", "ramalina fastigiata", "ramalina fraxinea")
+
+lichen <- files %>% 
+  map_dfr(read_csv, .id = "file") %>% 
+  rename_all(janitor::make_clean_names) %>% 
+  rename(ramalina_farinacea = ramalina_1, ramalina_fastigiata = ramalina_2,
+         ramalina_fraxinea = ramalina_f) %>% 
+  mutate(tree_speci = tolower(tree_speci)) %>% 
+  mutate_at(8:19, tolower) %>% 
+  mutate(lon = x_2, lat = y_2)
+```
+
+-----------
+
+```{r}
+top_trees <- lichen %>% 
+  drop_na(tree_speci) %>% 
+  count(tree_speci) %>% 
+  mutate(tree_speci = forcats::fct_reorder(tree_speci, .x = n)) %>% 
+  top_n(10, wt = n)
+
+top_trees %>% 
+  ggplot(aes(x = tree_speci, y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "Top 10 most common tree species")
+```
+
+---------------
+
+```{r}
+lichen %>% 
+  mutate_at(8:19, ~ str_detect(., pattern = "present")) %>% 
+  inner_join(top_trees, by = "tree_speci") %>% 
+  group_by(tree_speci) %>% 
+  summarise_at(8:18, sum) %>% 
+  gather(key, value, -tree_speci) %>% 
+  mutate(tree_speci = forcats::fct_reorder(tree_speci, value)) %>% 
+  ggplot(aes(x = tree_speci, y = value, fill = key)) +
+  geom_col(position = "fill") +
+  coord_flip() +
+  labs(title = "Proportion of lichen by tree species")
+```
+
+```{r}
+lichen_city <- lichen %>% 
+  filter(lat > 54.95, lat < 55, lon > -1.7, lon < -1.5)
+```
+
+```{r, eval=FALSE}
+library(ggmap)
+
+qmplot(x = lon, y = lat, data = lichen_city)
+```
+
+-----------
+
+```{r}
+library(leaflet)
+
+m <- leaflet() %>%
+  addTiles() %>%
+  addMarkers(lng = lichen_city$lon, lat = lichen_city$lat)
+m
+```
+
+## Grid Lichen by Area
+
+```{r}
+lichen_area <- lichen %>%
+  filter(lat > 54.95 & lat < 55 &  lon > -1.7 & lon < -1.5) %>% 
+  mutate(location = case_when(
+    lat > 54.98 & lat < 55 &  lon > -1.605 & lon < -1.575 ~ "jesmond dean",
+    lat > 54.925 & lat < 54.985 &  lon > -1.625 & lon < -1.6 ~ "city centre",
+  ))
+
+lichen_area %>% 
+  qmplot(x = lon, y = lat, colour = location, data = .)
+```
+
+--------
+
+```{r}
+lichen_area %>% 
+  filter(!is.na(location )) %>% 
+  mutate_at(8:19, ~ str_detect(., pattern = "present")) %>% 
+  group_by(location) %>% 
+  summarise_at(8:18, sum) %>% 
+  gather(key, value, -location) %>% 
+  ggplot(aes(x = location, y = value, fill = key)) +
+  geom_col(position = "fill") +
+  coord_flip() +
+  labs(title = "Proportion of lichen by location")
+```
+
+```{r Distance to coast road sensors, eval=FALSE}
+coast_road <- c("lat" = 54.990191, "lon" = -1.5867)
+
+lichen %>% 
+  mutate(distance_coast_road = sp::spDists(x = , y = )) %>% 
+  
+```
+
