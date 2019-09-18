@@ -1,1 +1,4 @@
-*-checkpoint.ipynb
+*-checkpoint.*
+data/*
+!data/data.csv
+!data/sensors.csv
